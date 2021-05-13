@@ -9,7 +9,10 @@ class _Page1State extends State<Page1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Page1"),
+      ),
       body: Container(
         child: Center(
           child: Text('Welcome'),
