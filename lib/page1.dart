@@ -8,14 +8,17 @@ class Page1 extends StatefulWidget {
 class _Page1State extends State<Page1> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text("Page1"),
-      ),
-      body: Container(
-        child: Center(
-          child: Text('Welcome'),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text("Page1"),
+        ),
+        drawer: Drawer(),
+        body: Container(
+          child: Center(
+            child: Text('Welcome'),
+          ),
         ),
       ),
     );
