@@ -64,18 +64,20 @@ class _Page1State extends State<Page1> {
                               Container(
                                 child: InkWell(
                                   child: CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        "https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"),
                                     radius: 45,
                                     backgroundColor: Colors.transparent,
-                                    child: ClipOval(
-                                      child: SizedBox(
-                                        width: 130,
-                                        height: 130,
-                                        child: Image.network(
-                                          "https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                                          fit: BoxFit.fill,
-                                        ),
-                                      ),
-                                    ),
+                                    // child: ClipOval(
+                                    //   child: SizedBox(
+                                    //     width: 130,
+                                    //     height: 130,
+                                    //     child: Image.network(
+                                    //       ,
+                                    //       fit: BoxFit.fill,
+                                    //     ),
+                                    //   ),
+                                    // ),
                                   ),
                                 ),
                               )
