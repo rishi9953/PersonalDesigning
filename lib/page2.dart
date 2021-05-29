@@ -9,28 +9,26 @@ class _Page2State extends State<Page2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: SafeArea(
-        child: Drawer(
-          elevation: 10,
-          child: Column(
-            children: [
-              DrawerHeader(
-                child: Text('Drawer Header'),
-              ),
-              ListTile(
-                leading: Icon(Icons.person),
-                title: Text('Profile'),
-              ),
-              Divider(),
-              ListTile(
-                leading: Icon(Icons.person),
-                title: Text('Profile'),
-              ),
-              ListTile(),
-              ListTile(),
-              ListTile(),
-            ],
-          ),
+      drawer: Drawer(
+        elevation: 10,
+        child: Column(
+          children: [
+            DrawerHeader(
+              child: Text('Drawer Header'),
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Profile'),
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Profile'),
+            ),
+            ListTile(),
+            ListTile(),
+            ListTile(),
+          ],
         ),
       ),
       body: CustomScrollView(
