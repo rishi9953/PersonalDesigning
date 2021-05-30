@@ -46,22 +46,36 @@ class _FirstPageState extends State<FirstPage> {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    side: BorderSide(width: 1.0, color: Colors.black)),
+                  primary: Colors.white,
+                  side: BorderSide(width: 1.0, color: Colors.black),
+                ),
                 onPressed: () {},
                 child: Container(
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(10)),
                   alignment: Alignment.center,
                   width: 250,
-                  child: Text('Login'),
+                  child: Text(
+                    'Login',
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ),
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
                     side: BorderSide(width: 1.0, color: Colors.black)),
                 onPressed: () {},
                 child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   alignment: Alignment.center,
                   width: 250,
-                  child: Text('Sign Up'),
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ),
               ),
             ],
