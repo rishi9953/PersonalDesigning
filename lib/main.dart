@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:personal_designing/newpage.dart';
+import 'package:personal_designing/FirstPage.dart';
+// import 'package:personal_designing/newpage.dart';
 // import 'package:personal_designing/page1.dart';
 
 void main() {
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Personal Designing",
-      home: MyNewPage(),
+      home: FirstPage(),
       debugShowCheckedModeBanner: false,
     );
   }

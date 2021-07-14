@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:personal_designing/drawer.dart';
 
 class FirstPage extends StatefulWidget {
   @override
@@ -9,6 +10,8 @@ class _FirstPageState extends State<FirstPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
+      drawer: CustomDrawer(),
       body: Container(
         alignment: Alignment.center,
         child: Padding(
