@@ -20,17 +20,19 @@ Future<List<Album>> fetchAlbum() async {
 
 class Album {
   final int? id;
+  final double? price;
   final String? title;
   final String? image;
   final String? description;
-  Album({this.id, this.title, this.image, this.description});
+  Album({this.id, this.title, this.image, this.price, this.description});
 
   factory Album.fromJson(Map<String, dynamic> json) {
     return Album(
         id: json['id'],
         title: json['title'],
         image: json['image'],
-        description: json['description']);
+        description: json['description'],
+        price: json['price']);
   }
 }
 
@@ -61,6 +63,7 @@ class _MyAppState extends State<MyApp> {
       ),
       home: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text('Api Demo'),
         ),
         body: FutureBuilder<List<Album>>(
@@ -71,13 +74,17 @@ class _MyAppState extends State<MyApp> {
               return ListView.separated(
                 itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    leading: Text('${snapshot.data![index].id ?? ''}'),
-                    title: Text('${snapshot.data![index].title ?? ''}'),
-                    subtitle: Text('${snapshot.data![index].title ?? ''}'),
-                    trailing: Image.network('${snapshot.data![index].image}',
-                        width: 100, height: 100),
-                  );
+                  return Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Card(
+                        child: ListTile(
+                            leading: Text('${snapshot.data![index].id ?? ''}'),
+                            title: Text('${snapshot.data![index].title ?? ''}'),
+                            subtitle: Text(
+                                '${snapshot.data![index].description ?? ''}'),
+                            trailing: Image.network(
+                                '${snapshot.data![index].image}')),
+                      ));
                 },
                 separatorBuilder: (context, index) {
                   return Divider();
