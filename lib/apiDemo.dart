@@ -118,7 +118,43 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
-        drawer: Drawer(),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              Container(
+                height: 100,
+                color: Colors.red,
+                child: ListTile(
+                    leading: CircleAvatar(
+                      child: Image.network(
+                          'https://image.shutterstock.com/image-vector/man-icon-vector-260nw-1040084344.jpg'),
+                    ),
+                    title: Text('Rishabh kumar'),
+                    subtitle: Text('rk@gmail.com')),
+              ),
+              ListTile(
+                  leading: Icon(Icons.add),
+                  title: Text('Get Data'),
+                  trailing: Icon(Icons.arrow_forward_ios)),
+              Divider(),
+              ListTile(
+                  leading: Icon(Icons.add),
+                  title: Text('Update Data'),
+                  trailing: Icon(Icons.arrow_forward_ios)),
+              Divider(),
+              ListTile(
+                  leading: Icon(Icons.add),
+                  title: Text('Delete Data'),
+                  trailing: Icon(Icons.arrow_forward_ios)),
+              Divider(),
+              ListTile(
+                  leading: Icon(Icons.add),
+                  title: Text('Post Data'),
+                  trailing: Icon(Icons.arrow_forward_ios)),
+              Divider(),
+            ],
+          ),
+        ),
         appBar: AppBar(
           elevation: 0,
           centerTitle: true,
