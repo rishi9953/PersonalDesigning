@@ -18,7 +18,7 @@ Future<List<Album>> fetchAlbum() async {
   }
 }
 
- updateAlbum(String? title,int? id) async {
+updateAlbum(String? title, int? id) async {
   final http.Response response = await http.put(
     Uri.parse("https://fakestoreapi.com/products/$id"),
     headers: <String, String>{
@@ -28,14 +28,27 @@ Future<List<Album>> fetchAlbum() async {
       'title': title!,
     }),
   );
-  if(response.statusCode == 200){
-   Album.fromJson(json.decode(response.body)); 
+  if (response.statusCode == 200) {
+    Album.fromJson(json.decode(response.body));
     print(response.body);
     print(response.statusCode);
-  }else{
+  } else {
     throw Exception('Failed to update');
   }
-  
+}
+ deleteAlbum(int id) async {
+  final http.Response response = await http.delete(
+      Uri.parse('https://fakestoreapi.com/products/$id'),
+      headers: <String, String>{
+        'content-type': 'application/json; charset=UTF-8'
+      });
+  if (response.statusCode == 200) {
+    Album.fromJson(json.decode(response.body));
+    print(response.body);
+    print(response.statusCode);
+  } else {
+    throw Exception('Failed to delete');
+  }
 }
 
 class Album {
@@ -98,15 +111,19 @@ class _MyAppState extends State<MyApp> {
                       padding: EdgeInsets.all(8.0),
                       child: Card(
                         child: ListTile(
-                            leading: Text('${snapshot.data![index].id ?? ''}'),
-                            title: Text('${snapshot.data![index].title ?? ''}'),
-                            subtitle: Text(
-                                '${snapshot.data![index].description ?? ''}'),
-                            trailing: Image.network(
-                                '${snapshot.data![index].image}'),
-                        onTap:(){
-                          updateAlbum(snapshot.data![index].title,snapshot.data![index].id);
-                        }
+                          leading: Text('${snapshot.data![index].id ?? ''}'),
+                          title: Text('${snapshot.data![index].title ?? ''}'),
+                          subtitle: Text(
+                              '${snapshot.data![index].description ?? ''}'),
+                          trailing: IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: () {
+                                deleteAlbum(snapshot.data![index].id!);
+                              }),
+                            onTap: () {
+                              updateAlbum(snapshot.data![index].title,
+                                  snapshot.data![index].id);
+                            }
                         ),
                       ));
                 },
