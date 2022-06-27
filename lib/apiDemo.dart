@@ -18,6 +18,26 @@ Future<List<Album>> fetchAlbum() async {
   }
 }
 
+ updateAlbum(String? title,int? id) async {
+  final http.Response response = await http.put(
+    Uri.parse("https://fakestoreapi.com/products/$id"),
+    headers: <String, String>{
+      'content-type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'title': title!,
+    }),
+  );
+  if(response.statusCode == 200){
+   Album.fromJson(json.decode(response.body)); 
+    print(response.body);
+    print(response.statusCode);
+  }else{
+    throw Exception('Failed to update');
+  }
+  
+}
+
 class Album {
   final int? id;
   final double? price;
@@ -83,7 +103,11 @@ class _MyAppState extends State<MyApp> {
                             subtitle: Text(
                                 '${snapshot.data![index].description ?? ''}'),
                             trailing: Image.network(
-                                '${snapshot.data![index].image}')),
+                                '${snapshot.data![index].image}'),
+                        onTap:(){
+                          updateAlbum(snapshot.data![index].title,snapshot.data![index].id);
+                        }
+                        ),
                       ));
                 },
                 separatorBuilder: (context, index) {
