@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-senData() async {
+Future senData() async {
   final http.Response response = await http.post(
       Uri.parse('https://fakestoreapi.com/products'),
       headers: <String, String>{
@@ -112,14 +112,17 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Fetching Data',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
+        drawer: Drawer(),
         appBar: AppBar(
+          elevation: 0,
           centerTitle: true,
-          title: Text('Api Demo'),
+          title: Text('API Demo', style: Theme.of(context).textTheme.headline6),
         ),
         body: FutureBuilder<List<Album>>(
           future: futureAlbum,
@@ -143,9 +146,8 @@ class _MyAppState extends State<MyApp> {
                                   deleteAlbum(snapshot.data![index].id!);
                                 }),
                             onTap: () {
-                              senData();
-//                               updateAlbum(snapshot.data![index].title,
-//                                   snapshot.data![index].id);
+                              updateAlbum(snapshot.data![index].title,
+                                  snapshot.data![index].id);
                             }),
                       ));
                 },
@@ -159,6 +161,12 @@ class _MyAppState extends State<MyApp> {
             return Center(child: CircularProgressIndicator());
           },
         ),
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () {
+              senData();
+            }),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }
