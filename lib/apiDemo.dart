@@ -4,6 +4,27 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+senData() async {
+  final http.Response response = await http.post(
+      Uri.parse('https://fakestoreapi.com/products'),
+      headers: <String, String>{
+        'content-type': 'application/json; charset=UTF-8'
+      },
+      body: jsonEncode(<String, String>{
+        'title': 'Rishabh',
+        'id': '21',
+        'image': '',
+        'description': 'hello this is Rishabh'
+      }));
+  if (response.statusCode == 200) {
+    Album.fromJson(json.decode(response.body));
+    print(response.body);
+    print(response.statusCode);
+  } else {
+    throw Exception('Failed to send the data');
+  }
+}
+
 Future<List<Album>> fetchAlbum() async {
   final response =
       await http.get(Uri.parse('https://fakestoreapi.com/products'));
@@ -36,7 +57,8 @@ updateAlbum(String? title, int? id) async {
     throw Exception('Failed to update');
   }
 }
- deleteAlbum(int id) async {
+
+deleteAlbum(int id) async {
   final http.Response response = await http.delete(
       Uri.parse('https://fakestoreapi.com/products/$id'),
       headers: <String, String>{
@@ -111,20 +133,20 @@ class _MyAppState extends State<MyApp> {
                       padding: EdgeInsets.all(8.0),
                       child: Card(
                         child: ListTile(
-                          leading: Text('${snapshot.data![index].id ?? ''}'),
-                          title: Text('${snapshot.data![index].title ?? ''}'),
-                          subtitle: Text(
-                              '${snapshot.data![index].description ?? ''}'),
-                          trailing: IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () {
-                                deleteAlbum(snapshot.data![index].id!);
-                              }),
+                            leading: Text('${snapshot.data![index].id ?? ''}'),
+                            title: Text('${snapshot.data![index].title ?? ''}'),
+                            subtitle: Text(
+                                '${snapshot.data![index].description ?? ''}'),
+                            trailing: IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () {
+                                  deleteAlbum(snapshot.data![index].id!);
+                                }),
                             onTap: () {
-                              updateAlbum(snapshot.data![index].title,
-                                  snapshot.data![index].id);
-                            }
-                        ),
+                              senData();
+//                               updateAlbum(snapshot.data![index].title,
+//                                   snapshot.data![index].id);
+                            }),
                       ));
                 },
                 separatorBuilder: (context, index) {
