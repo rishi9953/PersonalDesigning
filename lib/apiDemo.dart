@@ -123,8 +123,11 @@ class _MyAppState extends State<MyApp> {
             children: [
               Container(
                 height: 100,
-                color: Colors.red,
+                color: Colors.blue,
                 child: ListTile(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
                     leading: CircleAvatar(
                       child: Image.network(
                           'https://image.shutterstock.com/image-vector/man-icon-vector-260nw-1040084344.jpg'),
@@ -133,21 +136,38 @@ class _MyAppState extends State<MyApp> {
                     subtitle: Text('rk@gmail.com')),
               ),
               ListTile(
-                  leading: Icon(Icons.add),
-                  title: Text('Get Data'),
-                  trailing: Icon(Icons.arrow_forward_ios)),
+                hoverColor: Colors.blue[100],
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                leading: Icon(Icons.add),
+                title: Text('Get Data'),
+                trailing: Icon(Icons.arrow_forward_ios),
+              ),
               Divider(),
               ListTile(
+                  hoverColor: Colors.blue[100],
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
                   leading: Icon(Icons.add),
                   title: Text('Update Data'),
                   trailing: Icon(Icons.arrow_forward_ios)),
               Divider(),
               ListTile(
+                  hoverColor: Colors.blue[100],
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
                   leading: Icon(Icons.add),
                   title: Text('Delete Data'),
                   trailing: Icon(Icons.arrow_forward_ios)),
               Divider(),
               ListTile(
+                  hoverColor: Colors.blue[100],
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
                   leading: Icon(Icons.add),
                   title: Text('Post Data'),
                   trailing: Icon(Icons.arrow_forward_ios)),
@@ -156,10 +176,15 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         appBar: AppBar(
-          elevation: 0,
-          centerTitle: true,
-          title: Text('API Demo', style: Theme.of(context).textTheme.headline6),
-        ),
+            elevation: 0,
+            centerTitle: true,
+            title:
+                Text('API Demo', style: Theme.of(context).textTheme.headline6),
+            actions: [
+              Tooltip(
+                  message: 'Help',
+                  child: Icon(Icons.help_outline_rounded, color: Colors.black))
+            ]),
         body: FutureBuilder<List<Album>>(
           future: futureAlbum,
           builder: (context, snapshot) {
@@ -172,11 +197,14 @@ class _MyAppState extends State<MyApp> {
                       padding: EdgeInsets.all(8.0),
                       child: Card(
                         child: ListTile(
-                            leading: Text('${snapshot.data![index].id ?? ''}'),
+                            leading: CircleAvatar(
+                                child:
+                                    Text('${snapshot.data![index].id ?? ''}')),
                             title: Text('${snapshot.data![index].title ?? ''}'),
                             subtitle: Text(
                                 '${snapshot.data![index].description ?? ''}'),
                             trailing: IconButton(
+                                tooltip: 'Delete',
                                 icon: Icon(Icons.delete),
                                 onPressed: () {
                                   deleteAlbum(snapshot.data![index].id!);
@@ -198,6 +226,7 @@ class _MyAppState extends State<MyApp> {
           },
         ),
         floatingActionButton: FloatingActionButton(
+            tooltip: 'Add Data',
             child: Icon(Icons.add),
             onPressed: () {
               senData();
