@@ -1,9 +1,18 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:marquee/marquee.dart';
 
 class MyAudioPlayer extends StatefulWidget {
   final String title;
-  const MyAudioPlayer({super.key, required this.title});
+  final String chapter;
+  final String audioLink;
+  final String imageLink;
+  const MyAudioPlayer(
+      {super.key,
+      required this.title,
+      required this.audioLink,
+      required this.imageLink,
+      required this.chapter});
 
   @override
   State<MyAudioPlayer> createState() => _MyAudioPlayerState();
@@ -25,8 +34,7 @@ class _MyAudioPlayerState extends State<MyAudioPlayer> {
   /// Compulsory
   AudioPlayer audioPlayer = AudioPlayer();
   PlayerState audioPlayerState = PlayerState.PAUSED;
-  String url =
-      'https://firebasestorage.googleapis.com/v0/b/bwi-iskon-dev.appspot.com/o/Arijit%20Singh%20-%20Dhokha(PagalWorld.com.se).mp3?alt=media&token=28b06613-2a19-45f3-8054-b06a27f77c53';
+  String? url;
 
   /// Optional
   int timeProgress = 0;
@@ -35,8 +43,10 @@ class _MyAudioPlayerState extends State<MyAudioPlayer> {
   /// Optional
   Widget slider() {
     return SizedBox(
-      width: 300.0,
       child: Slider.adaptive(
+          mouseCursor: MouseCursor.defer,
+          activeColor: Colors.white,
+          inactiveColor: Color.fromARGB(255, 152, 76, 211),
           value: timeProgress.toDouble(),
           max: audioDuration.toDouble(),
           onChanged: (value) {
@@ -48,6 +58,9 @@ class _MyAudioPlayerState extends State<MyAudioPlayer> {
   @override
   void initState() {
     super.initState();
+    setState(() {
+      url = widget.audioLink;
+    });
 
     /// Compulsory
     audioPlayer.onPlayerStateChanged.listen((PlayerState state) {
@@ -58,7 +71,7 @@ class _MyAudioPlayerState extends State<MyAudioPlayer> {
 
     /// Optional
     audioPlayer.setUrl(
-        url); // Triggers the onDurationChanged listener and sets the max duration string
+        url!); // Triggers the onDurationChanged listener and sets the max duration string
     audioPlayer.onDurationChanged.listen((Duration duration) {
       setState(() {
         audioDuration = duration.inSeconds;
@@ -69,6 +82,7 @@ class _MyAudioPlayerState extends State<MyAudioPlayer> {
         timeProgress = position.inSeconds;
       });
     });
+    playMusic();
   }
 
   /// Compulsory
@@ -82,7 +96,7 @@ class _MyAudioPlayerState extends State<MyAudioPlayer> {
   /// Compulsory
   playMusic() async {
     // Add the parameter "isLocal: true" if you want to access a local file
-    await audioPlayer.play(url);
+    await audioPlayer.play(url!);
   }
 
   /// Compulsory
@@ -97,6 +111,8 @@ class _MyAudioPlayerState extends State<MyAudioPlayer> {
         .seek(newPos); // Jumps to the given position within the audio file
   }
 
+  void fastforward(Duration sec) {}
+
   /// Optional
   String getTimeString(int seconds) {
     String minuteString =
@@ -108,37 +124,140 @@ class _MyAudioPlayerState extends State<MyAudioPlayer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(centerTitle: true, title: Text(widget.chapter)),
       body: Container(
-          alignment: Alignment.center,
+          color: Color.fromRGBO(112, 5, 195, 1),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               /// Compulsory
-              IconButton(
-                  iconSize: 50,
-                  onPressed: () {
-                    audioPlayerState == PlayerState.PLAYING
-                        ? pauseMusic()
-                        : playMusic();
-                  },
-                  icon: Icon(audioPlayerState == PlayerState.PLAYING
-                      ? Icons.pause_rounded
-                      : Icons.play_arrow_rounded)),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.network(
+                  widget.imageLink,
+                ),
+              ),
+              // audioPlayerState != PlayerState.PLAYING
+              //     ? SizedBox(
+              //         child: Image.network(
+              //           'https://w7.pngwing.com/pngs/249/385/png-transparent-music-icon-music-icon-music-material-round-icon.png',
+              //           height: 180,
+              //           width: MediaQuery.of(context).size.width,
+              //         ),
+              //       )
+              //     : Image.network(
+              //         'https://cdn.dribbble.com/users/746306/screenshots/4639102/wave_sound.gif',
+              //         height: 180,
+              //         width: MediaQuery.of(context).size.width),
 
               /// Optional
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(getTimeString(timeProgress)),
-                  SizedBox(width: 20),
-                  SizedBox(width: 200, child: slider()),
-                  SizedBox(width: 20),
-                  Text(getTimeString(audioDuration))
-                ],
-              )
+              SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                height: 100,
+                child: Marquee(
+                  text: widget.title,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6!
+                      .merge(TextStyle(color: Colors.white)),
+                  blankSpace: 40,
+                  scrollAxis: Axis.horizontal,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                  width: MediaQuery.of(context).size.width, child: slider()),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  children: [
+                    Text(
+                      getTimeString(timeProgress),
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    Spacer(),
+                    Text(
+                      getTimeString(audioDuration),
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.shuffle_outlined,
+                          color: Colors.white,
+                        )),
+                    IconButton(
+                        onPressed: () {
+                          // seekToSec(-10);
+                        },
+                        icon: Icon(
+                          Icons.fast_rewind,
+                          color: Colors.white,
+                        )),
+                    InkWell(
+                      onTap: () {
+                        audioPlayerState == PlayerState.PLAYING
+                            ? pauseMusic()
+                            : playMusic();
+                      },
+                      child: Container(
+                          height: 100,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color.fromARGB(255, 152, 76, 211),
+                          ),
+                          child: Icon(
+                            audioPlayerState == PlayerState.PLAYING
+                                ? Icons.pause_rounded
+                                : Icons.play_arrow_rounded,
+                            color: Colors.white,
+                            size: 40,
+                          )),
+                    ),
+                    // IconButton(
+                    //     color: Colors.green,
+                    //     iconSize: 50,
+                    //     onPressed: () {
+                    //       audioPlayerState == PlayerState.PLAYING
+                    //           ? pauseMusic()
+                    //           : playMusic();
+                    //     },
+                    //     icon: Icon(audioPlayerState == PlayerState.PLAYING
+                    //         ? Icons.pause_rounded
+                    //         : Icons.play_arrow_rounded)),
+                    IconButton(
+                        onPressed: () {
+                          // seekToSec(10);
+                        },
+                        icon: Icon(
+                          Icons.fast_forward,
+                          color: Colors.white,
+                        )),
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.list,
+                          color: Colors.white,
+                        )),
+                  ],
+                ),
+              ),
             ],
           )),
     );
